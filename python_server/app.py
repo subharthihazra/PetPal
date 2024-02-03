@@ -12,10 +12,6 @@ app = Flask(__name__)
 
 model = genai.GenerativeModel('gemini-pro-vision')
 
-@app.route('/', methods=['GET'])
-def hello_world():
-    return render_template("index.html")
-
 @app.route('/chat_with_image', methods=['POST'])
 def chat():
     
