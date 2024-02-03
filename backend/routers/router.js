@@ -5,6 +5,7 @@ const dashboardUploads = require("../controllers/dashboard");
 const { userLogin, userSignup } = require("../controllers/handleUser");
 const { getPets } = require("../controllers/dashboard");
 const csrf = require("csurf");
+const { dashboardData } = require("../controllers/dashboardData");
 
 const router = Router();
 const upload = multer();
@@ -44,6 +45,8 @@ router
   .route("/dashboard/uploads")
   .post(upload.any(), dashboardUploads)
   .get(getPets);
+router.route("/dashboard/data").get(dashboardData);
+
 router.route("/auth/signup").post(userSignup);
 router.route("/auth/login").post(userLogin);
 
