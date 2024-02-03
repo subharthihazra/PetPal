@@ -1,7 +1,7 @@
 streamlit
 google.generativeai
 python-dotenv
-flask
+Flask
 transformers
 gradio
 accelerate
@@ -14,4 +14,4 @@ tokenizers
 torch
 tqdm
 marko
-gunicorn
+Gunicorn
