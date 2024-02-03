@@ -7,20 +7,30 @@ import Markdown from "react-markdown";
 
 function Chat({ text, own, isLoading = false }) {
   return (
-    <div className={`${""} ${own && ""}`}>
-      <Markdown>{text}</Markdown>
-      {isLoading && <div></div>}
+    <div
+      className={`${""} ${own && "pt-[20px] pb-[10px]"} ${
+        !own && "border-b-[1px] pt-[10px] pb-[20px]"
+      }`}
+    >
+      <div
+        className={`${""} ${own && "p-[10px] bg-slate-200 rounded-lg w-fit"}`}
+      >
+        <Markdown>{text}</Markdown>
+      </div>
+      {isLoading && (
+        <div className="bg-[#00000099] w-[16px] h-[16px] rounded-full"></div>
+      )}
     </div>
   );
 }
 
 function LoaderRipple() {
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center min-h-[calc(100vh-130px)]">
       <div className="relative inline-flex">
-        <div className="w-8 h-8 bg-blue-500 rounded-full" />
-        <div className="w-8 h-8 bg-blue-500 rounded-full absolute top-0 left-0 animate-ping" />
-        <div className="w-8 h-8 bg-blue-500 rounded-full absolute top-0 left-0 animate-pulse" />
+        <div className="w-8 h-8 bg-orange-900 rounded-full" />
+        <div className="w-8 h-8 bg-orange-900 rounded-full absolute top-0 left-0 animate-ping" />
+        <div className="w-8 h-8 bg-orange-900 rounded-full absolute top-0 left-0 animate-pulse" />
       </div>
     </div>
   );
@@ -36,10 +46,11 @@ function Chatbot() {
   let ws = useRef(null);
 
   useEffect(() => {
-    if (mainRef.current) {
-      const container = mainRef.current;
-      container.scrollTop = container.scrollHeight;
-    }
+    // if (mainRef.current) {
+    //   //   const container = mainRef.current;
+    //   //   container.scrollTop = container.scrollHeight;
+    // }
+    window.scrollTo(0, document.body.scrollHeight);
   }, [chat]);
 
   useEffect(() => {
@@ -119,18 +130,20 @@ function Chatbot() {
   return (
     <div className="px-4">
       <Navbar />
-      <div className=" min-h-full">
-        <div className=" mx-4" ref={mainRef}>
+      <div className="pb-[60px] min-h-full" ref={mainRef}>
+        <div className=" mx-4">
           {!chatInit && (
             <div>
               <LoaderRipple />
             </div>
           )}
           {chatInit && chat.length === 0 && (
-            <div>
-              Having questions about Animals or Pets?
-              <br />
-              Chat with me now.
+            <div className="flex justify-center items-center min-h-[calc(100vh-130px)]">
+              <div>
+                Having questions about Animals or Pets?
+                <br />
+                Chat with me now.
+              </div>
             </div>
           )}
           {chatInit &&
@@ -144,21 +157,28 @@ function Chatbot() {
               />
             ))}
         </div>
-        <div className="flex gap-2 absolute bottom-[8px] w-[calc(100%-16px*2)]">
-          <Input
-            type="text"
-            className=""
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-          <Button
-            onClick={() => {
-              handleClick();
+        <div className="fixed bottom-0 py-[8px] w-[calc(100%-16px*2)] bg-white">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
             }}
-            disabled={chatState === "busy" ? true : false}
+            className="flex gap-2"
           >
-            <ArrowRightIcon />
-          </Button>
+            <Input
+              type="text"
+              className=""
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            />
+            <Button
+              onClick={() => {
+                handleClick();
+              }}
+              disabled={chatState === "busy" ? true : false}
+            >
+              <ArrowRightIcon />
+            </Button>
+          </form>
         </div>
       </div>
     </div>

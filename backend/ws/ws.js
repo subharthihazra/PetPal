@@ -41,12 +41,6 @@ const wsServe = async () => {
               respText += chunkText;
             }
             ws.send(JSON.stringify({ type: "server:response:end" }));
-            // should be stored in the db
-            await chatHistModel.create({
-              userId: req.userId,
-              prompt: data.prompt,
-              response: respText,
-            });
           }
         } catch (error) {
           console.log(error);
