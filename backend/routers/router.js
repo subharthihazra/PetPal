@@ -28,4 +28,10 @@ router.get("/user", userProfile);
 
 router.get("/discover/page/:page", discover);
 
+// use user (req.user) middleware
+router
+  .route("/dashboard/uploads")
+  .post(upload.any(), dashboardUploads)
+  .get(getPets);
+
 module.exports = router;
