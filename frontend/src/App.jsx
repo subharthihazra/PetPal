@@ -10,8 +10,9 @@ import AdoptSearch from './pages/AdoptSearch'
 import Upload from './pages/Upload'
 import PrivateRouter from './Hooks/PrivateRouter'
 
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
     <>
@@ -31,7 +32,7 @@ function App() {
       <Route path="/rehome" element={<Upload />} />
     </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
