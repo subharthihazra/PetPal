@@ -26,4 +26,6 @@ router.post("/auth/login", userLogin);
 router.post("/auth/signup", userLogin);
 router.get("/user", userProfile);
 
+router.get("/discover/page/:page", discover);
+
 module.exports = router;
