@@ -14,3 +14,4 @@ tokenizers
 torch
 tqdm
 marko
+gunicorn
