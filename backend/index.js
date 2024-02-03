@@ -10,7 +10,6 @@ const connectDB = require("./db/connect.js");
 dotenv.config();
 
 const app = express();
-const server = require("http").createServer(app);
 
 app.use(
   cors({
@@ -33,14 +32,7 @@ app.use(bodyParser.json());
 // parse cookie
 app.use(cookieParser());
 
-const csrfMiddleware = csrf({ cookie: true });
-
-app.use(csrfMiddleware);
-
 app.use(router);
-
-//include socket.io connections
-require("./socket/socket.js")(server);
 
 const initServer = async () => {
   try {
@@ -48,7 +40,7 @@ const initServer = async () => {
     await connectDB();
     console.log("DB Connected");
 
-    server.listen(port, () => {
+    app.listen(port, () => {
       console.log(`Backend Server Started on ${port} ...`);
     });
   } catch (err) {
