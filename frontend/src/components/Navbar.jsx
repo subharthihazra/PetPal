@@ -14,7 +14,7 @@ import {
 
 function Navbar() {
   return (
-    <div className='flex flex-row justify-between items-center w-full'>
+    <div className='flex flex-row justify-between items-center w-full pt-4 pb-4'>
       <div>Logo</div>
       <div className='flex flex-row gap-8'>
         <NavigationMenu>

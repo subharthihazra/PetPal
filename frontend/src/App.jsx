@@ -5,6 +5,8 @@ import './App.css'
 import { Route, Router, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import Login from './pages/Login'
+import Signup from './pages/Signup'
+import AdoptSearch from './pages/AdoptSearch'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -14,7 +16,8 @@ function App() {
     <Routes >
       <Route path='/' element={<Home />} />
       <Route path= '/login' element={<Login />} />
-      <Route path= '/login' element={<Signup />} />
+      <Route path= '/signup' element={<Signup />} />
+      <Route path='/user' element={<AdoptSearch />} />
     </Routes>
     </>
   )
