@@ -6,6 +6,8 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const router = require("./routers/router.js");
 const connectDB = require("./db/connect.js");
+const { wsServe } = require("./ws/ws.js");
+const { setupGeminiChat } = require("./gemini/getChat.js");
 
 dotenv.config();
 
@@ -43,6 +45,12 @@ const initServer = async () => {
     app.listen(port, () => {
       console.log(`Backend Server Started on ${port} ...`);
     });
+
+    /// web socket server
+    wsServe();
+
+    /// gemini init
+    setupGeminiChat();
   } catch (err) {
     console.log(err.message);
     console.log("Server not started!");
