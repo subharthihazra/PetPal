@@ -19,3 +19,8 @@ export function get_initals(name) {
   }
   return initials;
 }
+
+export const typeToBreed =  {
+  "cats" :  ["ragdoll","maine-coon","persian-cat","siamese-cat","others"],
+  "dogs"  : ["german-shepherd","labrador","bulldog","husky","others"]
+}

@@ -1,11 +1,6 @@
 const mongoose = require("mongoose");
 
 const tagSchema = new mongoose.Schema({
-  tagid: {
-    type: String,
-    unique: true,
-    required: true,
-  },
   type: String,
   breed: String,
   gender: {
@@ -14,11 +9,19 @@ const tagSchema = new mongoose.Schema({
     default: "unknown",
   },
   age: Number,
-  personality: [String],
-  health: [String],
+  personality: String,
+  health: String,
   stray: Boolean,
+  city : {
+    type : String,
+    required : true,
+  },
+  weight : {
+    type : String,
+  required : true,
+  }
 });
 
 const Tag = mongoose.model("Tag", tagSchema);
 
-module.exports = Tag;
+module.exports = {Tag};
