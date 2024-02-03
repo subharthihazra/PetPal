@@ -2,36 +2,86 @@ import React, { useState } from "react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { SignOut, SignupWithEmail } from "@/firebase/firebase";
-import { CookiesProvider, useCookies } from "react-cookie";
+import { LoginWithGoogle, SignOut, SignupWithEmail } from "@/firebase/firebase";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
+
 
 function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
   const [cookies, setCookie] = useCookies(["XSRF-TOKEN"]);
 
-  //   console.log(cookies);
+  const navigate = useNavigate();
+
   async function handleSignup() {
-    const user = await SignupWithEmail(email?.trim(), password?.trim());
-    const idToken = await user.getIdToken();
-    await axios.post(
-      import.meta.env.VITE_API_LINK + "/auth/signup",
-      { idToken },
+  try {
+      const user = await SignupWithEmail(email?.trim(), password?.trim());
+      const idToken = await user.getIdToken();
+      const data = await axios.post(import.meta.env.VITE_API_LINK + "/auth/signup",{
+        email,
+        name : name,
+        idToken : idToken
+      },
       {
         withCredentials: true,
         headers: {
           "CSRF-Token": cookies["XSRF-TOKEN"],
         },
-      }
-    );
-    await SignOut();
-    navigate("/user");
+      })
+      
+  } catch (error) {
+    
   }
-  async function handleSignupGoogle() {}
+  }
+
+  async function handleSignupGoogle() {
+    const {user,status,info} = await LoginWithGoogle();
+    if(status=='true'){
+      if(info){
+       try {
+          const idToken = await user.getIdToken();
+         const data = await axios.post(import.meta.env.VITE_API_LINK + "/auth/signup",{
+           email : user.email,
+           name : user.displayName,
+           idToken : idToken,
+         },
+         {
+          withCredentials: true,
+          headers: {
+            "CSRF-Token": cookies["XSRF-TOKEN"],
+          },
+        })
+         navigate("/user")
+       } catch (error) {
+        
+       }
+      }
+      else{
+      try {
+          const idToken = await user.getIdToken();
+          await axios.post(
+            import.meta.env.VITE_API_LINK + "/auth/login",
+            { idToken },
+            {
+              withCredentials: true,
+              headers: {
+                "CSRF-Token": cookies["XSRF-TOKEN"],
+              },
+            }
+          );
+          await SignOut();
+          navigate("/user");
+      } catch (error) {
+        
+      }
+      }
+      
+    }
+  }
+
   return (
     <>
       <div className="h-screen flex justify-center bg-gray-400">
