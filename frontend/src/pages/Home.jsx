@@ -16,10 +16,15 @@ function Home() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
     <Navbar />
       <div className="text-center mt-16 h-screen">
+        <div className='flex flex-row items-center'>
+            
+        <img src={Home1}  className='h-48 w-48'/>
         <h1 className="text-6xl font-bold">Find your perfect furry friend</h1>
+        </div>
+
         <div className="mt-16 flex justify-center items-center">
-          <div className="flex border-2 border-gray-200 rounded items-center pr-2">
-            <input className="px-4 py-2 w-80" placeholder="Search for a pet" type="text" />
+          <div className="flex border-2 border-gray-200 rounded items-center pr-2 bg-neutral-200">
+            <Input className="px-4 py-2 w-80 outline-none" placeholder="Search for a pet" type="text" />
             <MagnifyingGlassIcon className='h-6 w-6' />
           </div>
             <Button className="px-8 rounded-r-lg bg-black text-white">Search</Button>
