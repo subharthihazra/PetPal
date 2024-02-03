@@ -1,23 +1,26 @@
 const dotenv = require("dotenv");
 const { Pet } = require("../models/pet");
+const { Tag } = require("../models/tag");
 
 dotenv.config();
 
 async function discover(req, res) {
-  ///////////////////////////////////////////////////////////////////////////
-  // Example URL
-  // []/discover/page/5?gender=male&city=kolkata&type=dog&bread=pug
-  // []/discover/page/<<page>>?<<filters>>
-  ///////////////////////////////////////////////////////////////////////////
   try {
     const page = parseInt(req?.params?.page) || 1;
     const pageSize = parseInt(String(process.env.PAGEINATION_PAGE_LEN)) || 10;
 
-    const filters = req?.query || {}; // filter to be implemented
+    const filters = req?.query || {};
 
-    const pets = await Pet.find(filters)
-      .skip((page - 1) * pageSize)
-      .limit(pageSize);
+    // Find tag IDs based on the provided filters
+    const foundTags = await Tag.find(filters);
+
+    // Extract tag IDs from the foundTags
+    const tagIds = foundTags.map(tag => tag._id); // Adjust based on your schema
+
+    // Find pets that have the specified tag IDs
+    const pets = await Pet.find({ tags: { $in: tagIds } })
+    .skip((page - 1) * pageSize)
+    .limit(pageSize);
 
     if (pets.length === 0) {
       return res.status(200).json({ info: "notfound" });

@@ -1,23 +1,16 @@
 const mongoose = require("mongoose");
 
 const petSchema = new mongoose.Schema({
-  petid: {
-    type: String,
-    unique: true,
-    required: true,
-  },
-  imageUrl: String,
+  imgUrl: String,
   imageId: String,
   owner: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
-  teams: String,
   nickname: String,
   description: String,
   tags: {
-    type: String,
-    unique: true,
+    type: mongoose.Schema.Types.ObjectId,
   },
   loves: {
     type: Number,
