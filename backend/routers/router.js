@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const multer = require("multer");
 const discover = require("../controllers/discover");
-const dashboardUploads = require("../controllers/dashboard");
+const { dashboardUploads } = require("../controllers/dashboard");
 const { userLogin, userSignup } = require("../controllers/handleUser");
 const { getPets } = require("../controllers/dashboard");
 const csrf = require("csurf");
