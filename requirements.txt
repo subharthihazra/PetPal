@@ -1,0 +1,16 @@
+streamlit
+google.generativeai
+python-dotenv
+flask
+transformers
+gradio
+accelerate
+certifi
+filelock
+fsspec
+huggingface-hub
+safetensors
+tokenizers
+torch
+tqdm
+marko
