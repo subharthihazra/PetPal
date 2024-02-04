@@ -11,11 +11,13 @@ import {
   NavigationMenuViewport,
   navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu"
+import { Link } from 'react-router-dom'
+import {logo} from '../assets/logo.png'
 
 function Navbar() {
   return (
     <div className='flex flex-row justify-between items-center w-full pt-4 pb-4'>
-      <div>Logo</div>
+      <div><img src={logo} alt="" /></div>
       <div className='flex flex-row gap-8'>
         <NavigationMenu>
           <NavigationMenuList>
@@ -64,9 +66,9 @@ function Navbar() {
           </NavigationMenuList>
         </NavigationMenu>
         <div >
-          <Button variant="secondary">Login</Button>
+          <Button variant="secondary"><Link to='/login' >Login</Link></Button>
           &nbsp;
-          <Button>SignUp</Button>
+          <Button><Link to='/Signup' >Signup</Link></Button>
         </div>
       </div>
     </div>

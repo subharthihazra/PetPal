@@ -44,6 +44,9 @@ function AdoptSearch() {
 
     const [searchParams,setSearchparams] = useSearchParams()
     const [queryCall,setQueryCall] = useState('')
+
+    const [data,setData] = useState()
+
     function objectToQueryString(obj) {
         const ans = Object.entries(obj)
           .map(([key, value]) => encodeURIComponent(key) + '=' + encodeURIComponent(value))

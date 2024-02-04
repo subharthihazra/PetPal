@@ -16,6 +16,7 @@ import ToggleGroup from "@/components/ToggleGroup";
 import {Input } from '@/components/ui/input'
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { typeToBreed } from "@/lib/utils";
 
 const ImageUpload = ({selectedImage,setSelectedImage}) => {
 
@@ -113,6 +114,12 @@ function Upload() {
   // 
   const [city,setCity] = useState('')
 
+  const [curBreeds,setCurBreeds] = useState([])
+
+  useEffect(()=>{
+    setCurBreeds(typeToBreed[type])
+  },[type])
+
   const userId = useSelector((state)=>state.auth.userId)
   async function UploadImage() {
     const formData = new FormData();
@@ -129,7 +136,7 @@ function Upload() {
     formData.append('city', city.toLowerCase()); // Convert to lowercase
   
     try {
-      const data = await axios.post(import.meta.env.VITE_API_LINK + '/dashboard/uploads', formData);
+      const data = await axios.post(import.meta.env.VITE_API_LINK + '/dashboard/uploads', formData, {headers:{"Content-Type":'multipart/form-data'}});
   
       // Handle the response if needed
     } catch (error) {
@@ -255,9 +262,12 @@ function Upload() {
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value="cats">Cat</SelectItem>
-              <SelectItem value="dogs">Dog</SelectItem>
-              <SelectItem value="others">Other</SelectItem>
+              {
+                curBreeds?.length >0 && curBreeds.map((e)=>{
+                  return <SelectItem value={e}>{e}</SelectItem>
+                })
+              }
+             
             </SelectGroup>
           </SelectContent>
         </Select>
@@ -276,9 +286,10 @@ function Upload() {
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value="cats">Cat</SelectItem>
-              <SelectItem value="dogs">Dog</SelectItem>
-              <SelectItem value="others">Other</SelectItem>
+              <SelectItem value="calm">Calm</SelectItem>
+              <SelectItem value="violent">Violent</SelectItem>
+              <SelectItem value="loving">Loving</SelectItem>
+              <SelectItem value="other">Others</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
