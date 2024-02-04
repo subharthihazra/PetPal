@@ -12,7 +12,6 @@ const { dashboardData } = require("../controllers/dashboardData");
 
 const router = Router();
 
-
 const upload = multer();
 
 router.route("/cron").get((req, res) => {
@@ -50,7 +49,7 @@ router.route("/discover/page/:page").get(discover);
 router
   .route("/dashboard/uploads")
   .post(upload.any(), dashboardUploads)
-  .get(getPets);
+  .get(dashboardData);
 router.route("/auth/signup").post(userSignup);
 router.route("/auth/login").post(userLogin);
 

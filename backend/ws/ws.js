@@ -3,8 +3,8 @@ const { startGeminiChat } = require("../gemini/getChat");
 
 const wsServe = async () => {
   try {
-    const wss = new WebSocket.WebSocketServer({ port: 8001 });
-    // const wss = new WebSocket.Server({ noServer: true }); /// comment up and uncomment to host on render
+    // const wss = new WebSocket.WebSocketServer({ port: 8001 });
+    const wss = new WebSocket.Server({ noServer: true }); /// comment up and uncomment to host on render
     console.log("ws start");
 
     wss.on("connection", async (ws, req) => {

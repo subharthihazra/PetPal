@@ -6,7 +6,7 @@ const { uploadImg } = require("./uploadFile");
 dotenv.config();
 
 async function dashboardData(req, res) {
-  const userId = req?.headers["userid"];
+  const userId = req?.query["userid"];
   if (!userId) return res.sendStatus(400);
 
   let data = await Pet.find({ owner: userId });

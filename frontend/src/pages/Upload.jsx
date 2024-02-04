@@ -16,13 +16,18 @@ import ToggleGroup from "@/components/ToggleGroup";
 import { Input } from "@/components/ui/input";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { typeToBreed } from "@/lib/utils";
 
-const ImageUpload = ({ selectedImage, setSelectedImage }) => {
+const ImageUpload = ({
+  selectedImage,
+  setSelectedImage,
+  showImage,
+  setShowImage,
+}) => {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       previewImage(file);
+      setSelectedImage(file);
     }
   };
 
@@ -43,7 +48,7 @@ const ImageUpload = ({ selectedImage, setSelectedImage }) => {
     const reader = new FileReader();
 
     reader.onload = (e) => {
-      setSelectedImage(e.target.result);
+      setShowImage(e.target.result);
     };
 
     reader.readAsDataURL(file);
@@ -72,9 +77,9 @@ const ImageUpload = ({ selectedImage, setSelectedImage }) => {
         }}
         className="mt-auto mb-auto flex flex-col"
       >
-        {selectedImage ? (
+        {showImage ? (
           <img
-            src={selectedImage}
+            src={showImage}
             alt="Preview"
             style={{ maxWidth: "100%", height: "", maxHeight: "100%" }}
             className="m-auto"
@@ -95,6 +100,7 @@ function Upload() {
   //["0-15kgs",15-30kgs,30-45kgs,45kgs+]
   const [weight, setWeight] = useState("0-15Kg");
   const [selectedImage, setSelectedImage] = useState(null);
+  const [showImage, setShowImage] = useState(null);
   const [name, setName] = useState("");
   //[cats,dogs,others]
   const [type, setType] = useState("");
@@ -109,15 +115,7 @@ function Upload() {
   //
   const [city, setCity] = useState("");
 
-
-  const [curBreeds,setCurBreeds] = useState([])
-
-  useEffect(()=>{
-    setCurBreeds(typeToBreed[type])
-  },[type])
-
-  const userId = useSelector((state)=>state.auth.userId)
-
+  const userId = useSelector((state) => state.auth.userId);
   async function UploadImage() {
     const formData = new FormData();
     formData.append("image", selectedImage);
@@ -133,9 +131,10 @@ function Upload() {
     formData.append("city", city.toLowerCase()); // Convert to lowercase
 
     try {
-
-      const data = await axios.post(import.meta.env.VITE_API_LINK + '/dashboard/uploads', formData, {headers:{"Content-Type":'multipart/form-data'}});
-  
+      const data = await axios.post(
+        import.meta.env.VITE_API_LINK + "/dashboard/uploads",
+        formData
+      );
 
       // Handle the response if needed
     } catch (error) {
@@ -217,6 +216,8 @@ function Upload() {
               <ImageUpload
                 selectedImage={selectedImage}
                 setSelectedImage={setSelectedImage}
+                showImage={showImage}
+                setShowImage={setShowImage}
               />
               <div className="flex flex-row justify-end p-4">
                 <div>
@@ -232,109 +233,113 @@ function Upload() {
           )}
           {tab == 2 && (
             <div className="h-full flex flex-col justify-center p-8">
+              <div className="flex flex-col m-auto text-xl gap-8">
+                <div className="flex flex-row gap-2 items-center ">
+                  <div>You have a</div>
+                  <Select>
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Select a Pet" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="black">Black</SelectItem>
+                        <SelectItem value="brown">Brown</SelectItem>
+                        <SelectItem value="others">Other</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                  <div>Coloured</div>
+                  <Select value={type} onValueChange={setType}>
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue
+                        placeholder="Select a Pet"
+                        value={type}
+                        onChange={(e) => setType(e.target.value)}
+                      />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="cats">Cat</SelectItem>
+                        <SelectItem value="dogs">Dog</SelectItem>
+                        <SelectItem value="others">Other</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="grid grid-cols-2 text-base">
+                  <div className=" flex flex-col justify-start gap-0">
+                    <div className="text-start">Breed</div>
+                    <Select value={breed} onValueChange={setBreed}>
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Select a Pet" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value="cats">Cat</SelectItem>
+                          <SelectItem value="dogs">Dog</SelectItem>
+                          <SelectItem value="others">Other</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <div className="text-start">Gender</div>
+                    <ToggleGroup
+                      arr={["Male", "Female"]}
+                      state={gender}
+                      setState={setGender}
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 text-base">
+                  <div className=" flex flex-col justify-start gap-0">
+                    <div className="text-start">Personality</div>
+                    <Select value={personality} onValueChange={setPersonality}>
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Select a Pet" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value="cats">Cat</SelectItem>
+                          <SelectItem value="dogs">Dog</SelectItem>
+                          <SelectItem value="others">Other</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-             <div className="flex flex-col m-auto text-xl gap-8">
-        <div className="flex flex-row gap-2 items-center ">
-        <div>You have a</div>
-        <Select>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select a Pet" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="black">Black</SelectItem>
-              <SelectItem value="brown">Brown</SelectItem>
-              <SelectItem value="others">Other</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-          <div>Coloured</div>
-        <Select value={type} onValueChange={setType}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select a Pet" value={type} onChange={(e)=>setType(e.target.value)} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="cats">Cat</SelectItem>
-              <SelectItem value="dogs">Dog</SelectItem>
-              <SelectItem value="others">Other</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
-      <div className="grid grid-cols-2 text-base">
-        <div className=" flex flex-col justify-start gap-0">
-            <div className="text-start">Breed</div>
-            <Select value={breed} onValueChange={setBreed}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select a Pet" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              {
-                curBreeds?.length >0 && curBreeds.map((e)=>{
-                  return <SelectItem value={e}>{e}</SelectItem>
-                })
-              }
-             
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        </div> 
-        <div>
-        <div className="text-start">Gender</div>
-          <ToggleGroup arr={["Male","Female"]} state={gender} setState={setGender}/>  
-        </div>       
-      </div>
-      <div className="grid grid-cols-2 text-base">
-        <div className=" flex flex-col justify-start gap-0">
-            <div className="text-start">Personality</div>
-            <Select value={personality} onValueChange={setPersonality}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select a Pet" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="calm">Calm</SelectItem>
-              <SelectItem value="violent">Violent</SelectItem>
-              <SelectItem value="loving">Loving</SelectItem>
-              <SelectItem value="other">Others</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        </div> 
-        
-        <div className=" flex flex-col justify-start gap-0">
-            <div className="text-start">City</div>
-            <Select value={city} onValueChange={setCity}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select a Pet" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="cats">Cat</SelectItem>
-              <SelectItem value="dogs">Dog</SelectItem>
-              <SelectItem value="others">Other</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        </div>        
-      </div>
-      <div className="text-base">
-      <div>
-        <div className="text-start">Weight</div>
-          <ToggleGroup arr={["0-15Kg","15-30Kg","30-45Kg","45+Kg"]} state={weight} setState={setWeight}/>  
-        </div> 
-      </div>
-      <div>
-        <div>Age</div>
-        <Input value={age} onChange={(e)=>setAge(e.target.value)} />
-      </div>
-      </div>
-      <div>
-        
-      </div>
-
+                  <div className=" flex flex-col justify-start gap-0">
+                    <div className="text-start">City</div>
+                    <Select value={city} onValueChange={setCity}>
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Select a Pet" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value="cats">Cat</SelectItem>
+                          <SelectItem value="dogs">Dog</SelectItem>
+                          <SelectItem value="others">Other</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                <div className="text-base">
+                  <div>
+                    <div className="text-start">Weight</div>
+                    <ToggleGroup
+                      arr={["0-15Kg", "15-30Kg", "30-45Kg", "45+Kg"]}
+                      state={weight}
+                      setState={setWeight}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <div>Age</div>
+                  <Input value={age} onChange={(e) => setAge(e.target.value)} />
+                </div>
+              </div>
+              <div></div>
               <div className="flex flex-row justify-end p-4">
                 <div>
                   <Button onClick={() => setTab(3)}>Next</Button>

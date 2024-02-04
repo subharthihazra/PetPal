@@ -33,7 +33,7 @@ function Account({
   useEffect(() => {}, []);
   return (
     <div className="pl-4 pr-4">
-      <div>Your {pets?.length} pets are looking for a new home</div>
+      <div>Found {pets?.length} result(s)</div>
       <div>
         {pets?.map((e, i) => {
           return (

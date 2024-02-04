@@ -7,7 +7,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
-
 function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -17,50 +16,50 @@ function Signup() {
   const navigate = useNavigate();
 
   async function handleSignup() {
-  try {
+    try {
       const user = await SignupWithEmail(email?.trim(), password?.trim());
       const idToken = await user.getIdToken();
-      const data = await axios.post(import.meta.env.VITE_API_LINK + "/auth/signup",{
-        email,
-        name : name,
-        idToken : idToken
-      },
-      {
-        withCredentials: true,
-        headers: {
-          "CSRF-Token": cookies["XSRF-TOKEN"],
+      const data = await axios.post(
+        import.meta.env.VITE_API_LINK + "/auth/signup",
+        {
+          email,
+          name: name,
+          idToken: idToken,
         },
-      })
-      
-  } catch (error) {
-    
-  }
-  }
-
-  async function handleSignupGoogle() {
-    const {user,status,info} = await LoginWithGoogle();
-    if(status=='true'){
-      if(info){
-       try {
-          const idToken = await user.getIdToken();
-         const data = await axios.post(import.meta.env.VITE_API_LINK + "/auth/signup",{
-           email : user.email,
-           name : user.displayName,
-           idToken : idToken,
-         },
-         {
+        {
           withCredentials: true,
           headers: {
             "CSRF-Token": cookies["XSRF-TOKEN"],
           },
-        })
-         navigate("/user")
-       } catch (error) {
-        
-       }
-      }
-      else{
-      try {
+        }
+      );
+    } catch (error) {}
+  }
+
+  async function handleSignupGoogle() {
+    const { user, status, info } = await LoginWithGoogle();
+    if (status == "true") {
+      if (info) {
+        try {
+          const idToken = await user.getIdToken();
+          const data = await axios.post(
+            import.meta.env.VITE_API_LINK + "/auth/signup",
+            {
+              email: user.email,
+              name: user.displayName,
+              idToken: idToken,
+            },
+            {
+              withCredentials: true,
+              headers: {
+                "CSRF-Token": cookies["XSRF-TOKEN"],
+              },
+            }
+          );
+          navigate("/user");
+        } catch (error) {}
+      } else {
+        try {
           const idToken = await user.getIdToken();
           await axios.post(
             import.meta.env.VITE_API_LINK + "/auth/login",
@@ -74,11 +73,8 @@ function Signup() {
           );
           await SignOut();
           navigate("/user");
-      } catch (error) {
-        
+        } catch (error) {}
       }
-      }
-      
     }
   }
 
@@ -116,13 +112,13 @@ function Signup() {
             <div className="flex flex-col items-center">
               <div className="mb-2">
                 <Button className="w-full" onClick={() => handleSignup()}>
-                  Login
+                  Signup
                 </Button>
               </div>
               <div className="mb-2">or</div>
               <div>
                 <Button variant="outline" onClick={() => handleSignupGoogle()}>
-                  Login With Google
+                  Signup With Google
                 </Button>
               </div>
             </div>

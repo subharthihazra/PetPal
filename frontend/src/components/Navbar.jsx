@@ -9,11 +9,13 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   NavigationMenuViewport,
+
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { useSelector } from "react-redux";
+
 
 function Navbar() {
   const isLoggedin = useSelector((state) => state.auth.isAuthenticated);
@@ -23,7 +25,10 @@ function Navbar() {
         <img src={logo} alt="" className="h-8" />
         <div>PetPal</div>
       </div>
-      <div className="flex flex-row gap-8">
+
+      <div className='flex flex-row gap-8'>
+
+
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
@@ -71,6 +76,7 @@ function Navbar() {
           </NavigationMenuList>
         </NavigationMenu>
         <div>
+
           {isLoggedin && (
             <>
               <Button variant="secondary">
@@ -90,6 +96,7 @@ function Navbar() {
               </Button>
             </>
           }
+
         </div>
       </div>
     </div>
