@@ -36,13 +36,13 @@ async function userLogin(req, res) {
 
 async function getUser(req, res) {
   const sessionCookie = req.cookies.session || "";
-  console.log(sessionCookie);
+  // console.log(sessionCookie);
   admin
     .auth()
     .verifySessionCookie(sessionCookie, true /** checkRevoked */)
     .then(async (userData) => {
-      console.log("Logged in:", userData.email);
-      console.log("here", userData);
+      // console.log("Logged in:", userData.email);
+      // console.log("here", userData);
       if (userData?.email) {
         const user = await User.findOne(
           { email: userData?.email },
