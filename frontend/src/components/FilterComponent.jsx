@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/select";
 import ToggleGroup from "./ToggleGroup";
 import { Input } from "./ui/input";
+import { Button } from "./ui/button";
 
 function FilterSideBar({
   petType,
@@ -25,6 +26,7 @@ function FilterSideBar({
   setCity,
   breed,
   setBreed,
+  setFilterApplied
 }) {
   const [breedFilter, setBreedFilter] = useState([]);
   useEffect(() => {
@@ -34,7 +36,10 @@ function FilterSideBar({
   return (
     // className='transition ease-in-out duration-200'
     <div className="fixed left-0 h-screen flex flex-col z-50 bg-white w-72 sm:w-96 p-4 ease-in-out duration-200">
-      <div className="text-2xl mb-4 font-bold">Filter Your Search</div>
+      <div className="text-2xl mb-4 font-bold flex flex-row justify-between">
+        <span>Filter Your Search</span>
+        <Button variant="outline" onClick={()=>setFilterApplied(true)} >Apply Filters</Button>
+      </div>
       <hr />
       <div className="overflow-y-auto overflow-visible mt-4">
         <div className="flex flex-col gap-2">
