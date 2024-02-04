@@ -19,7 +19,7 @@ export default function PrivateRouter({ children }) {
     }
   }, [isLoading]);
   useEffect(() => {
-    console.log(auth);
+    console.log(auth,isLoading);
   }, [auth]);
 
   if (!loadingCompleted) {

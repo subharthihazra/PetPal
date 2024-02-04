@@ -1,40 +1,51 @@
-import React from "react";
-import Home1 from "../assets/home1.png";
-import { Input } from "@/components/ui/input.jsx";
-import { Button } from "@/components/ui/button";
-import Home2 from "../assets/home2.png";
-import Home3 from "../assets/home3.png";
-import Home4 from "../assets/home4.png";
-import Home5 from "../assets/home5.png";
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import Navbar from "@/components/Navbar";
+
+import React from 'react'
+import Home1 from '../assets/home1.png'
+import {Input} from '@/components/ui/input.jsx'
+import { Button } from '@/components/ui/button'
+import hero2 from '../assets/xcat.png'
+import Home3 from '../assets/home3.png'
+import Home4 from '../assets/home4.png'
+import Home5 from '../assets/home5.png'
+import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
+import Navbar from '@/components/Navbar'
+
 
 function Home() {
   return (
-    <>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
-        <Navbar />
-        <div className="text-center mt-24 mb-24">
-          <div className="flex flex-row items-center">
-            <img src={Home1} className="h-48 w-48" />
-            <h1 className="text-6xl font-bold">
-              Find your perfect furry friend
-            </h1>
-          </div>
-
-          <div className="mt-16 flex justify-center items-center">
-            <div className="flex border-2 border-gray-200 rounded items-center pr-2 bg-neutral-200">
-              <Input
-                className="px-4 py-2 w-80 outline-none"
-                placeholder="Search for a pet"
-                type="text"
-              />
-              <MagnifyingGlassIcon className="h-6 w-6" />
+  <>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
+    <Navbar />
+    <main className="px-8 h-screen">
+        <section className="my-12">
+          <div className="grid grid-cols-2 gap-8">
+            <div>
+              <h2 className="text-6xl font-bold">Connect with your new best</h2>
+              <p className="mt-4 text-xl">Find your perfect pet and give them a forever</p>
+              <Button className="mt-6 bg-red-600 text-white">Adopt now</Button>
             </div>
-            <Button className="px-8 rounded-r-lg bg-black text-white">
-              Search
-            </Button>
+            <div>
+              <img
+                alt="Dogs"
+                className="rounded-lg"
+             
+                src={hero2}
+                style={{
+
+                  objectFit: "cover",
+                }}
+                width="450"
+              />
+            </div>
           </div>
+        </section>
+      </main>
+      </div>
+      <div className="mt-12">
+        <h2 className="text-3xl font-bold text-center">How it works</h2>
+        <div className="flex justify-center mt-8">
+          {/* <ChevronDownIcon className="w-6 h-6" /> */}
+
         </div>
         <div className="mt-12">
           <h2 className="text-3xl font-bold text-center">How it works</h2>
@@ -53,21 +64,19 @@ function Home() {
                   objectFit: "cover",
                 }}
                 width="120"
-              />
-              <h3 className="text-xl font-semibold mb-2">Step 1</h3>
-              <p>
-                Enter your location. Type in your city or zip code to find pets
-                available for adoption near you.
-              </p>
-            </div>
-            <div className="flex flex-col items-center text-center">
-              <img
-                alt="Step 2"
-                className="mb-4"
-                height="120"
-                src={Home4}
-                style={{
-                  aspectRatio: "120/120",
+
+                />
+            <h3 className="text-xl font-semibold mb-2">Step 1</h3>
+            <p>Enter your location. Type in your city to find pets available for adoption near you.</p>
+          </div>
+          <div className="flex flex-col items-center text-center">
+            <img
+              alt="Step 2"
+              className="mb-4"
+              height="120"
+              src={Home4}
+              style={{
+   aspectRatio: "120/120",
                   objectFit: "cover",
                 }}
                 width="120"

@@ -53,7 +53,9 @@ async function getUser(req, res) {
         res.sendStatus(400);
       }
     })
-    .catch((error) => {});
+    .catch((error) => {
+      res.sendStatus(500)
+    });
 }
 
 async function userSignup(req, res) {

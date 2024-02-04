@@ -13,23 +13,19 @@ async function uploadImg(file, cb) {
   const mimeType = file?.mimetype;
   if (mimeType?.indexOf("image") !== 0) {
     // res.
+    console.log(mimeType)
     return;
   }
   const buf = file?.buffer;
-  imagekit.upload(
+  const resp = await imagekit.upload(
     {
       file: buf,
       fileName: uuid(),
       tags: [mimeType],
-    },
-    async (err, result) => {
-      try {
-        // console.log(result);
-
-        cb(result?.url, result?.fileId);
-      } catch (err) {}
     }
   );
+  console.log(resp)
+  return {url : resp.url,fileId : resp.fileId}
 }
 
 module.exports = { uploadImg };

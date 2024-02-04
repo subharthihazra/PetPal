@@ -71,29 +71,34 @@ async function dashboardUploads(req, res) {
       return res.status(500).json({ error: "Internal error to store tag." });
     }
     owner  = new mongoose.Types.ObjectId(String(owner))
+    console.log(req.files)
+    const resp = await uploadImg(req?.files[0])
+    console.log(resp)
     const petRes = await Pet.create({
       owner,
       description,
       nickname,
       tags: tagRes._id,
+      imageId : resp?.fileId,
+      imgUrl : resp?.url
     });
 
     if (!petRes || petRes.length === 0) {
       return res.status(500).json({ error: "Internal error to store pet." });
     }
 
-    await uploadImg(req?.files[0], async (url, fileId) => {
-      const result2 = await Pet.updateOne(
-        { _id: petRes._id },
-        { imgUrl: url, imageId: fileId }
-      );
+    // await uploadImg(req?.files[0], async (url, fileId) => {
+    //   const result2 = await Pet.updateOne(
+    //     { _id: petRes._id },
+    //     { imgUrl: url, imageId: fileId }
+    //   );
 
-      if (result2?.acknowledged) {
-        res.status(201).json({ msg: "success", data: { id: petRes._id } });
-      } else {
-        next(new CustomError(500, "Img store problem"));
-      }
-    });
+    //   if (result2?.acknowledged) {
+    //     res.status(201).json({ msg: "success", data: { id: petRes._id } });
+    //   } else {
+    //     next(new CustomError(500, "Img store problem"));
+    //   }
+    // });
     res.status(201).json({ info: "success" });
 
     //////////////////////////////////////////////

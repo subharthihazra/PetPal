@@ -14,6 +14,7 @@ import User from "./pages/User";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { signIn } from "./store/auth";
+import { signOut } from "./store/auth";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -31,19 +32,24 @@ function App() {
 
   useEffect(() => {
     const getUser = async () => {
-      const { data } = await axios.get(
-        import.meta.env.VITE_API_LINK + "/auth/getUser",
-        {
-          withCredentials: true,
-        }
-      );
-      dispatch(
-        signIn({
-          name: data.data.fullname,
-          email: data.data.email,
-          userId: data.data._id,
-        })
-      );
+     try {
+       const { data } = await axios.get(
+         import.meta.env.VITE_API_LINK + "/auth/getUser",
+         {
+           withCredentials: true,
+         }
+       );
+       dispatch(
+         signIn({
+           name: data.data.fullname,
+           email: data.data.email,
+           userId: data.data._id,
+         })
+       );
+     } catch (error) {
+      console.log(error.message)
+      dispatch(signOut())
+     }
     };
     getUser();
   }, []);
