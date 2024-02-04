@@ -41,8 +41,8 @@ async function getUser(req, res) {
     .auth()
     .verifySessionCookie(sessionCookie, true /** checkRevoked */)
     .then(async (userData) => {
-      console.log("Logged in:", userData.email);
-      console.log("here", userData);
+      // console.log("Logged in:", userData.email);
+      // console.log("here", userData);
       if (userData?.email) {
         const user = await User.findOne(
           { email: userData?.email },
