@@ -12,12 +12,14 @@ import {
   navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu"
 import { Link } from 'react-router-dom'
-import {logo} from '../assets/logo.png'
+import logo from '../assets/logo.png'
 
 function Navbar() {
   return (
     <div className='flex flex-row justify-between items-center w-full pt-4 pb-4'>
-      <div><img src={logo} alt="" /></div>
+      <div className='flex flex-row items-end text-lg'><img src={logo} alt="" className='h-8' />
+        <div>PetPal</div>
+      </div>
       <div className='flex flex-row gap-8'>
         <NavigationMenu>
           <NavigationMenuList>
