@@ -34,15 +34,24 @@ async function userLogin(req, res) {
     );
 }
 
-async function userProfile(req, res) {
+async function getUser(req, res) {
   const sessionCookie = req.cookies.session || "";
-
+  console.log(sessionCookie);
   admin
     .auth()
     .verifySessionCookie(sessionCookie, true /** checkRevoked */)
-    .then((userData) => {
+    .then(async (userData) => {
       console.log("Logged in:", userData.email);
-      //////
+      console.log("here", userData);
+      if (userData?.email) {
+        const user = await User.findOne(
+          { email: userData?.email },
+          { fullname: 1, email: 1, _id: 1 }
+        );
+        res.status(200).json({ msg: "success", data: user });
+      } else {
+        res.sendStatus(400);
+      }
     })
     .catch((error) => {});
 }
@@ -84,7 +93,8 @@ async function userSignup(req, res) {
       );
   } catch (error) {
     res.sendStatus(500);
+    console.log(error);
   }
 }
 
-module.exports = { userLogin, userProfile, userSignup };
+module.exports = { userLogin, getUser, userSignup };

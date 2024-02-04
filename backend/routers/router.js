@@ -2,7 +2,7 @@ const { Router } = require("express");
 const multer = require("multer");
 const discover = require("../controllers/discover");
 const { dashboardUploads } = require("../controllers/dashboard");
-const { userLogin, userSignup } = require("../controllers/handleUser");
+const { userLogin, userSignup, getUser } = require("../controllers/handleUser");
 const { getPets } = require("../controllers/dashboard");
 const csrf = require("csurf");
 const { dashboardData } = require("../controllers/dashboardData");
@@ -25,6 +25,7 @@ router.get("/isLoggedin", (req, res) => {
   }
 });
 
+router.get("/auth/getUser", getUser);
 router.get("/auth/token", (req, res) => {
   const options = {
     httpOnly: true,
