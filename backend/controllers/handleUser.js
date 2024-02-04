@@ -36,7 +36,7 @@ async function userLogin(req, res) {
 
 async function getUser(req, res) {
   const sessionCookie = req.cookies.session || "";
-  console.log(sessionCookie);
+  // console.log(sessionCookie);
   admin
     .auth()
     .verifySessionCookie(sessionCookie, true /** checkRevoked */)
