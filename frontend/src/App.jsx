@@ -32,24 +32,24 @@ function App() {
 
   useEffect(() => {
     const getUser = async () => {
-     try {
-       const { data } = await axios.get(
-         import.meta.env.VITE_API_LINK + "/auth/getUser",
-         {
-           withCredentials: true,
-         }
-       );
-       dispatch(
-         signIn({
-           name: data.data.fullname,
-           email: data.data.email,
-           userId: data.data._id,
-         })
-       );
-     } catch (error) {
-      console.log(error.message)
-      dispatch(signOut())
-     }
+      try {
+        const { data } = await axios.get(
+          import.meta.env.VITE_API_LINK + "/auth/getUser",
+          {
+            withCredentials: true,
+          }
+        );
+        dispatch(
+          signIn({
+            name: data.data.fullname,
+            email: data.data.email,
+            userId: data.data._id,
+          })
+        );
+      } catch (error) {
+        console.log(error.message);
+        dispatch(signOut());
+      }
     };
     getUser();
   }, []);
