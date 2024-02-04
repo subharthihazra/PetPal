@@ -10,9 +10,17 @@ async function discover(req, res) {
     const pageSize = parseInt(String(process.env.PAGINATION_PAGE_LEN)) || 10;
 
     const filters = req?.query || {};
+    console.log(filters)
+    const queryFilter = {
 
+    }
+    for(let i in filters){
+      if(filters[i]!=='undefined' && filters[i]!==''){
+        queryFilter[i] = filters[i]
+      }
+    }
     // Find tag IDs based on the provided filters
-    const foundTags = await Tag.find(filters).lean();
+    const foundTags = await Tag.find(queryFilter).lean();
 
     // Extract relevant pet information for the response
     const pets = await Promise.all(
