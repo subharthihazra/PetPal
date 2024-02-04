@@ -37,7 +37,7 @@ router.get("/auth/token", (req, res) => {
     secure: true,
   };
 
-  res.cookie("XSRF-TOKEN", req.csrfToken());
+  res.cookie("XSRF-TOKEN", req.csrfToken(), options);
   res.sendStatus(200);
 });
 
