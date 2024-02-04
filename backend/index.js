@@ -51,7 +51,7 @@ const initServer = async () => {
     });
 
     /// web socket server
-    const wss = wsServe();
+    const wss = await wsServe();
 
     httpServer.on("upgrade", (req, socket, head) => {
       wss.handleUpgrade(req, socket, head, (ws) => {
