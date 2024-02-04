@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -11,9 +11,42 @@ import Upload from "./pages/Upload";
 import PrivateRouter from "./Hooks/PrivateRouter";
 import Chatbot from "./pages/Chatbot";
 import User from "./pages/User";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { signIn } from "./store/auth";
 
 function App() {
   const [count, setCount] = useState(0);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const getToken = async () => {
+      await axios.get(import.meta.env.VITE_API_LINK + "/auth/token", {
+        withCredentials: true,
+      });
+
+      console.log("token ..");
+    };
+    getToken();
+  }, []);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await axios.get(
+        import.meta.env.VITE_API_LINK + "/auth/getUser",
+        {
+          withCredentials: true,
+        }
+      );
+      dispatch(
+        signIn({
+          name: data.data.fullname,
+          email: data.data.email,
+          userId: data.data._id,
+        })
+      );
+    };
+    getUser();
+  }, []);
 
   return (
     <>

@@ -16,7 +16,7 @@ const wsServe = async () => {
           data = JSON.parse(data.toString());
 
           if (data?.type === "client:prompt") {
-            console.log(data.prompt);
+            // console.log(data.prompt);
             if (data.prompt === undefined) {
               // throw err
               return;
