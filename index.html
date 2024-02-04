@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Example</title>
+</head>
+<body>
+
+    <h1>WebSocket Example</h1>
+    
+    <script>
+        // Establishing a WebSocket connection
+        const socket = new WebSocket('https://petpal-python.onrender.com');
+
+        // Connection opened
+        socket.addEventListener('open', (event) => {
+            console.log('WebSocket connection opened:', event);
+            // You can send data to the server after the connection is open
+            // For example: socket.send('Hello, server!');
+        });
+        setInterval(()=>{
+            socket.send("Hello")
+        },5000)
+        // Listen for messages from the server
+        socket.addEventListener('message', (event) => {
+            console.log('Message from server:', event.data);
+            // Handle the received message from the server
+        });
+
+        // Connection closed
+        socket.addEventListener('close', (event) => {
+            console.log('WebSocket connection closed:', event);
+        });
+
+        // Connection error
+        socket.addEventListener('error', (event) => {
+            console.error('WebSocket connection error:', event);
+        });
+
+        // Closing the WebSocket connection (optional)
+        // socket.close();
+    </script>
+
+</body>
+</html>

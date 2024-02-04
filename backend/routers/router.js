@@ -1,8 +1,10 @@
 const { Router } = require("express");
 const multer = require("multer");
 const discover = require("../controllers/discover");
+
 const { dashboardUploads } = require("../controllers/dashboard");
 const { userLogin, userSignup, getUser } = require("../controllers/handleUser");
+
 const { getPets } = require("../controllers/dashboard");
 const csrf = require("csurf");
 const { dashboardData } = require("../controllers/dashboardData");
@@ -42,10 +44,7 @@ router.get("/auth/token", (req, res) => {
 router.route("/discover/page/:page").get(discover);
 
 // use user (req.user) middleware
-router
-  .route("/dashboard/uploads")
-  .post(upload.any(), dashboardUploads)
-  .get(getPets);
+router.route("/dashboard/uploads").post(upload.any(), dashboardUploads)
 router.route("/dashboard/data").get(dashboardData);
 
 router.route("/auth/signup").post(userSignup);
