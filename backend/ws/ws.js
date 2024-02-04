@@ -53,6 +53,7 @@ const wsServe = async () => {
         console.error("WebSocket Error:", error.message);
       });
     });
+    return wss;
   } catch (error) {
     console.error(error);
   }

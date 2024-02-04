@@ -46,12 +46,18 @@ const initServer = async () => {
     await connectDB();
     console.log("DB Connected");
 
-    app.listen(port, () => {
+    const httpServer = app.listen(port, () => {
       console.log(`Backend Server Started on ${port} ...`);
     });
 
     /// web socket server
-    wsServe();
+    const wss = wsServe();
+
+    httpServer.on("upgrade", (req, socket, head) => {
+      wss.handleUpgrade(req, socket, head, (ws) => {
+        wss.emit("connection", ws, req);
+      });
+    });
 
     /// gemini init
     setupGeminiChat();
