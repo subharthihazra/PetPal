@@ -10,18 +10,24 @@ import {
   NavigationMenuTrigger,
   NavigationMenuViewport,
 
-  navigationMenuTriggerStyle
-} from "@/components/ui/navigation-menu"
-import { Link } from 'react-router-dom'
-import logo from '../assets/logo.png'
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+import { Link } from "react-router-dom";
+import logo from "../assets/logo.png";
+import { useSelector } from "react-redux";
+
 
 function Navbar() {
+  const isLoggedin = useSelector((state) => state.auth.isAuthenticated);
   return (
-    <div className='flex flex-row justify-between items-center w-full pt-4 pb-4'>
-      <div className='flex flex-row items-end text-lg'><img src={logo} alt="" className='h-8' />
+    <div className="flex flex-row justify-between items-center w-full pt-4 pb-4">
+      <div className="flex flex-row items-end text-lg">
+        <img src={logo} alt="" className="h-8" />
         <div>PetPal</div>
       </div>
+
       <div className='flex flex-row gap-8'>
+
 
         <NavigationMenu>
           <NavigationMenuList>
@@ -70,13 +76,27 @@ function Navbar() {
           </NavigationMenuList>
         </NavigationMenu>
         <div>
-          <Button variant="secondary">
-            <Link to="/login">Login</Link>
-          </Button>
-          &nbsp;
-          <Button>
-            <Link to="/Signup">Signup</Link>
-          </Button>
+
+          {isLoggedin && (
+            <>
+              <Button variant="secondary">
+                <Link to="/login">Login</Link>
+              </Button>
+              &nbsp;
+              <Button>
+                <Link to="/Signup">Signup</Link>
+              </Button>
+            </>
+          )}
+          {
+            !isLoggedin && 
+            <>
+              <Button >
+                LogOut
+              </Button>
+            </>
+          }
+
         </div>
       </div>
     </div>

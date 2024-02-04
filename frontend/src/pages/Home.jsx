@@ -9,6 +9,7 @@ import Home5 from "../assets/home5.png";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import Navbar from "@/components/Navbar";
 import donate from "../assets/img2.png";
+import { Link } from "react-router-dom";
 
 function Home() {
   return (
@@ -24,7 +25,7 @@ function Home() {
                 </h2>
                 <p className="mt-4 text-xl">Find your perfect pet today</p>
                 <Button className="mt-6 bg-red-600 text-white">
-                  Adopt now
+                  <Link to='/adopt'>Adopt now</Link>
                 </Button>
               </div>
               <div>
@@ -62,7 +63,6 @@ function Home() {
         <h2 className="text-3xl font-bold text-center">How it works</h2>
         <div className="flex justify-center mt-8">
           {/* <ChevronDownIcon className="w-6 h-6" /> */}
-
         </div>
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="flex flex-col items-center text-center">
@@ -150,7 +150,7 @@ function Home() {
         <div className="max-w-7xl grid grid-cols-3 place-content-center text-white m-auto">
           <div className="w-full flex justify-center">
             <div className="m-auto flex flex-col gap-2 text-gray-50">
-                <div className="font-bold text-lg">Features</div>
+              <div className="font-bold text-lg">Features</div>
               <div>Adopt a Pet</div>
               <div>Rehome a Pet</div>
               <div>Know about animals</div>
@@ -159,20 +159,19 @@ function Home() {
           </div>
           <div className="w-full flex justify-cente items-start">
             <div className="mx-auto mb-auto flex flex-col gap-2 text-gray-50">
-                <div className="font-bold text-lg">Organisation</div>
+              <div className="font-bold text-lg">Organisation</div>
               <div>About us</div>
               <div>Sponsor us</div>
             </div>
           </div>
           <div className="w-full flex justify-cente items-start">
             <div className="mx-auto mb-auto flex flex-col gap-2 text-gray-50">
-                <div className="font-bold text-lg">Socials</div>
+              <div className="font-bold text-lg">Socials</div>
               <div>Youtube</div>
               <div>DevFolio</div>
             </div>
           </div>
         </div>
-        
       </div>
     </>
   );
