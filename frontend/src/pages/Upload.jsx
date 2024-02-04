@@ -13,14 +13,12 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import ToggleGroup from "@/components/ToggleGroup";
-import {Input } from '@/components/ui/input'
+import { Input } from "@/components/ui/input";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { typeToBreed } from "@/lib/utils";
 
-const ImageUpload = ({selectedImage,setSelectedImage}) => {
-
-
+const ImageUpload = ({ selectedImage, setSelectedImage }) => {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -41,7 +39,7 @@ const ImageUpload = ({selectedImage,setSelectedImage}) => {
     }
   };
 
-  const previewImage = (file) => {
+  function previewImage(file) {
     const reader = new FileReader();
 
     reader.onload = (e) => {
@@ -49,7 +47,7 @@ const ImageUpload = ({selectedImage,setSelectedImage}) => {
     };
 
     reader.readAsDataURL(file);
-  };
+  }
 
   return (
     <div className="h-full flex flex-col justify-center">
@@ -89,30 +87,28 @@ const ImageUpload = ({selectedImage,setSelectedImage}) => {
   );
 };
 
-
-
-
 function Upload() {
   const [tab, setTab] = useState(0);
-  
+
   // ["Male","Female"]
-  const [gender,setGender] = useState("Male")
+  const [gender, setGender] = useState("Male");
   //["0-15kgs",15-30kgs,30-45kgs,45kgs+]
-  const [weight,setWeight] = useState("0-15Kg")
-  const [selectedImage,setSelectedImage] = useState(null)
-  const [name,setName] = useState('');
+  const [weight, setWeight] = useState("0-15Kg");
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [name, setName] = useState("");
   //[cats,dogs,others]
-  const [type,setType] = useState('');
+  const [type, setType] = useState("");
   // cats --> ["ragdoll","maine-coon","persian-cat","siamese-cat","others"]
   //Dogs --> ["german-shepherd","labrador","bulldog","husky","others"]
-  const [breed,setBreed] = useState('')
+  const [breed, setBreed] = useState("");
   //""
-  const [age,setAge] = useState()
+  const [age, setAge] = useState();
   // "Calm" , "Violent" , "Loving", "Others"
-  const [personality,setPersonality] = useState('')
-  const [stray,setStray] = useState(false)
-  // 
-  const [city,setCity] = useState('')
+  const [personality, setPersonality] = useState("");
+  const [stray, setStray] = useState(false);
+  //
+  const [city, setCity] = useState("");
+
 
   const [curBreeds,setCurBreeds] = useState([])
 
@@ -121,38 +117,39 @@ function Upload() {
   },[type])
 
   const userId = useSelector((state)=>state.auth.userId)
+
   async function UploadImage() {
     const formData = new FormData();
-    formData.append('image', selectedImage);
-    formData.append('owner', userId);
-    formData.append('nickname', name.toLowerCase()); // Convert to lowercase
-    formData.append('gender', gender.toLowerCase()); // Convert to lowercase
-    formData.append('type', type.toLowerCase()); // Convert to lowercase
-    formData.append('breed', breed.toLowerCase()); // Convert to lowercase
-    formData.append('age', age);
-    formData.append('personality', personality.toLowerCase()); // Convert to lowercase
-    formData.append('stray', stray);
-    formData.append('weight', weight.toLowerCase()); // Convert to lowercase
-    formData.append('city', city.toLowerCase()); // Convert to lowercase
-  
+    formData.append("image", selectedImage);
+    formData.append("owner", userId);
+    formData.append("nickname", name.toLowerCase()); // Convert to lowercase
+    formData.append("gender", gender.toLowerCase()); // Convert to lowercase
+    formData.append("type", type.toLowerCase()); // Convert to lowercase
+    formData.append("breed", breed.toLowerCase()); // Convert to lowercase
+    formData.append("age", age);
+    formData.append("personality", personality.toLowerCase()); // Convert to lowercase
+    formData.append("stray", stray);
+    formData.append("weight", weight.toLowerCase()); // Convert to lowercase
+    formData.append("city", city.toLowerCase()); // Convert to lowercase
+
     try {
+
       const data = await axios.post(import.meta.env.VITE_API_LINK + '/dashboard/uploads', formData, {headers:{"Content-Type":'multipart/form-data'}});
   
+
       // Handle the response if needed
     } catch (error) {
       console.log(error.message);
     }
   }
- useEffect(()=>{
-    console.log(type)
- },[type])
-  useEffect(()=>{
-    if(tab==1){
+  useEffect(() => {
+    console.log(type);
+  }, [type]);
+  useEffect(() => {
+    if (tab == 1) {
       //Call AI API here
-
     }
-    
-  },[tab])
+  }, [tab]);
 
   return (
     <>
@@ -171,7 +168,9 @@ function Upload() {
                     } ${styles.circle}`}
                   ></div>
                 </div>
-                <div className={`${tab === 0 ? 'text-3xl' : ''}`}>Upload a Picture</div>
+                <div className={`${tab === 0 ? "text-3xl" : ""}`}>
+                  Upload a Picture
+                </div>
               </div>
               <div className="flex flex-row gap-2 items-center text-lg">
                 <div className={styles.wrapper}>
@@ -181,7 +180,9 @@ function Upload() {
                     } ${styles.circle}`}
                   ></div>
                 </div>
-                <div className={`${tab === 1 ? 'text-3xl' : ''}`}>AI detection</div>
+                <div className={`${tab === 1 ? "text-3xl" : ""}`}>
+                  AI detection
+                </div>
               </div>
               <div className="flex flex-row gap-2 items-center text-lg">
                 <div className={styles.wrapper}>
@@ -191,7 +192,9 @@ function Upload() {
                     } ${styles.circle}`}
                   ></div>
                 </div>
-                <div className={`${tab === 2 ? 'text-3xl' : ''}`}>Pet Details</div>
+                <div className={`${tab === 2 ? "text-3xl" : ""}`}>
+                  Pet Details
+                </div>
               </div>
               <div className="flex flex-row gap-2 items-center text-lg">
                 <div className={styles.wrapper}>
@@ -201,7 +204,9 @@ function Upload() {
                     } `}
                   ></div>
                 </div>
-                <div className={`${tab === 3 ? 'text-3xl' : ''}`}>Confirmation</div>
+                <div className={`${tab === 3 ? "text-3xl" : ""}`}>
+                  Confirmation
+                </div>
               </div>
             </div>
           </div>
@@ -209,7 +214,10 @@ function Upload() {
         <div className="col-span-3 h-screen">
           {tab == 0 && (
             <div className="h-full flex flex-col justify-center p-8">
-              <ImageUpload selectedImage={selectedImage} setSelectedImage={setSelectedImage} />
+              <ImageUpload
+                selectedImage={selectedImage}
+                setSelectedImage={setSelectedImage}
+              />
               <div className="flex flex-row justify-end p-4">
                 <div>
                   <Button onClick={() => setTab(2)}>Upload</Button>
@@ -224,6 +232,7 @@ function Upload() {
           )}
           {tab == 2 && (
             <div className="h-full flex flex-col justify-center p-8">
+
              <div className="flex flex-col m-auto text-xl gap-8">
         <div className="flex flex-row gap-2 items-center ">
         <div>You have a</div>
@@ -325,16 +334,22 @@ function Upload() {
       <div>
         
       </div>
+
               <div className="flex flex-row justify-end p-4">
                 <div>
-                  <Button onClick={()=>setTab(3)}>Next</Button>
+                  <Button onClick={() => setTab(3)}>Next</Button>
                 </div>
               </div>
             </div>
           )}
           {tab == 3 && (
             <div className="h-full flex flex-col justify-center p-8">
-             <Input  placeholder="Enter the name " value={name} onChange={(e)=>setName(e.target.value)} />
+              <Input
+                placeholder="Enter the name "
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+
               <div className="flex flex-row justify-end p-4">
                 <div>
                   <Button onClick={UploadImage}>Upload</Button>
