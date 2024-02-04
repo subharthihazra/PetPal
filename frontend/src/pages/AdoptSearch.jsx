@@ -12,15 +12,83 @@ import {
     DropdownMenuRadioItem,
     DropdownMenuRadioGroup,
 } from "@/components/ui/dropdown-menu"
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+  } from "@/components/ui/pagination"
+  
 import { ChevronDownIcon , MixerHorizontalIcon } from '@radix-ui/react-icons'
-import { useState } from 'react'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 function AdoptSearch() {
     const [sortBy,setSortby] = useState('newest')
     const [filterOpen , setFilterOpen] = useState(false);
+    const [page,setPage] = useState(1);
+    const [filters,setFilters] = useState({
+        type : 'cats',
+        
+    })
+    const [petType,setPetType] = useState("")
+    const [gender,setGender] = useState("")
+    const [weight,setWeight] = useState("")
+    const [age,setAge] = useState()
+    const [city,setCity] = useState('')
+    const [breed,setBreed] = useState('')
+
+    const [searchParams,setSearchparams] = useSearchParams()
+    const [queryCall,setQueryCall] = useState('')
+    function objectToQueryString(obj) {
+        const ans = Object.entries(obj)
+          .map(([key, value]) => encodeURIComponent(key) + '=' + encodeURIComponent(value))
+          .join('&');
+          setQueryCall(ans)
+      }
+    useEffect(()=>{
+        let query = {}
+        if(petType.length>0){
+            query.type = petType.toLowerCase()
+        }
+        if(gender.length>0){
+            query.gender = gender.toLowerCase()
+        }
+        if(weight.length>0){
+            query.weight = weight
+        }
+        if(age!=null){
+            query.age = age;
+        }
+        if(breed.length>0){
+            query.breed = breed
+        }
+        setSearchparams(
+            query
+        )
+
+        objectToQueryString({
+            age,gender,breed,
+            type : petType,
+            weight,
+        })
+    },[petType,gender,weight,age,city,breed])
+  
+      
+    useEffect(()=>{
+        axios.get(import.meta.env.VITE_API_LINK + `/discover/page/${page}?`+queryCall)
+        console.log(searchParams)
+    },[])
     return (
+        <>
         <div>
-            {filterOpen && <><div ><FilterSideBar /></div>
+            {filterOpen && <><div ><FilterSideBar petType={petType} setPetType={setPetType}
+            gender={gender} setGender={setGender} weight={weight} setWeight={setWeight}
+            age={age} setAge={setAge} city={city} setCity={setCity} breed={breed} setBreed={setBreed}  /></div>
             <div className='h-screen w-screen fixed bg-black opacity-50 z-20' onClick={()=>setFilterOpen(false)}></div>
             </> }
             <div className='p-4'>
@@ -66,6 +134,24 @@ function AdoptSearch() {
                 </div>
             </div>
         </div>
+        <Pagination>
+  <PaginationContent>
+    <PaginationItem>
+      <PaginationPrevious href="#" />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#">1</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationEllipsis />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationNext href="#" />
+    </PaginationItem>
+  </PaginationContent>
+</Pagination>
+
+                        </>
     )
 }
 

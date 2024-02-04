@@ -2,6 +2,7 @@ const dotenv = require("dotenv");
 const { Pet } = require("../models/pet");
 const { Tag } = require("../models/tag");
 const { uploadImg } = require("./uploadFile");
+const { default: mongoose } = require("mongoose");
 
 dotenv.config();
 
@@ -11,71 +12,70 @@ async function dashboardUploads(req, res) {
   // []/dashboard/uploads
   ///////////////////////////////////////////////////////////////////////////
   try {
-    const owner = "abc123"; //req.userId;
-    const {
-      petId,
-      productDetails,
-      imageUrl,
-      imageId,
-      description,
-      nickname,
-      teams,
-    } = req.body;
+    // const owner = "abc123"; //req.userId;
+    // const {
+    //   petId,
+    //   productDetails,
+    //   imageUrl,
+    //   imageId,
+    //   description,
+    //   nickname,
+    //   teams,
+    // } = req.body;
 
-    const { tagId, type, breed, gender, age, personality, health, stray } =
-      req.body;
+    // const { tagId, type, breed, gender, age, personality, health, stray } =
+    //   req.body;
+    let {owner,nickname,description,type,breed,gender,personality,city,weight,age ,stray}  = req.body
 
     if (
-      !tagId ||
+      !owner ||
       !type ||
       !breed ||
       !gender ||
       !age ||
       !personality ||
-      !health ||
-      !stray
+      !stray || 
+      !nickname || !weight || !city
     ) {
       return res
         .status(400)
         .json({ error: "Invalid or incomplete tag details." });
     }
-
-    if (
-      !petId ||
-      !productDetails ||
-      !imageUrl ||
-      !imageId ||
-      !description ||
-      !nickname ||
-      !teams
-    ) {
-      return res
-        .status(400)
-        .json({ error: "Invalid or incomplete pet details." });
-    }
+    console.log(req.body.owner)
+    // if (
+    //   !petId ||
+    //   !productDetails ||
+    //   !imageUrl ||
+    //   !imageId ||
+    //   !description ||
+    //   !nickname ||
+    //   !teams
+    // ) {
+    //   return res
+    //     .status(400)
+    //     .json({ error: "Invalid or incomplete pet details." });
+    // }
 
     const tagRes = await Tag.create({
-      tagId,
       type,
       breed,
       gender,
       age,
+      city,
       personality,
-      health,
       stray,
+      weight
     });
 
     if (!tagRes || tagRes.length === 0) {
       return res.status(500).json({ error: "Internal error to store tag." });
     }
-
+    owner  = new mongoose.Types.ObjectId(String(owner))
     const petRes = await Pet.create({
-      petId,
-      productDetails,
+      owner,
       description,
       nickname,
-      teams,
-      tagId: tagRes._id,
+      tags: tagRes._id,
     });
 
     if (!petRes || petRes.length === 0) {
@@ -89,7 +89,7 @@ async function dashboardUploads(req, res) {
       );
 
       if (result2?.acknowledged) {
-        res.status(201).json({ msg: "success", data: { id: result._id } });
+        res.status(201).json({ msg: "success", data: { id: petRes._id } });
       } else {
         next(new CustomError(500, "Img store problem"));
       }
